@@ -1,0 +1,16 @@
+--- Further Development Opportunities ---
+
+* More thorough validation for model object property assignments
+* Comprehensive use of type hints
+* More precautionary data validation checks within model classes
+* Impose restrictions for user passwords (e.g. mixed character types, minimum length)
+
+--- Considerations for Productionisation ---
+
+* Ensure that end-to-end encryption is implemented (for ensuring password security)
+
+--- Follow-Up Questions for Client ---
+
+* Under what conditions can adjustments be made to invoices? (i.e. which stage of the process is the cut-off for this action?)
+* Do invoices need to be re-approved after adjustments are made?
+* Can invoices be edited after being sent to clients (e.g. if they're disputed), or is it necessary to create new invoices (and render existing ones 'Cancelled')?
