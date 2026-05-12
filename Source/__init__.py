@@ -18,8 +18,9 @@ from Globals import *
 from Controller.InvoiceController import InvoiceController
 from Controller.SessionController import SessionController
 
-from Model.Adjustment import Adjustment
+from Model.Invoice.Invoice import Invoice
+from Model.Invoice.InvoiceAdjustment import InvoiceAdjustment
+from Model.Invoice.InvoiceEntry import InvoiceEntry
 from Model.Client import Client
-from Model.Invoice import Invoice
 from Model.Project import Project
 from Model.User import User

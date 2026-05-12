@@ -1,11 +1,13 @@
+from .. import *
+
 class InvoiceController:
-	Clients: list
-	Projects: list
-	Invoices: list
-	Adjustments: list
+	__clients: list[Client]
+	__projects: list[Project]
+	__invoices: list[Invoice]
+	__invoiceAdjustments: list[InvoiceAdjustment]
 	
 	def __init__(self):
-		self.Clients = []
-		self.Projects = []
-		self.Invoices = []
-		self.Adjustments = []
+		self.__clients = []
+		self.__projects = []
+		self.__invoices = []
+		self.__invoiceAdjustments = []

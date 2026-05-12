@@ -1,14 +1,16 @@
+from .. import *
+
 class SessionController:
-	Users: list
-	Sessions: dict	# Key: User, Value: integer
+	__users: list[User]
+	__sessions: dict[str:User]
 
 	def __init__(self):
-		self.Users = []
-		self.Sessions = {}
+		self.__users = []
+		self.__sessions = {}
 	
-	def __init__(self, users):
-		self.Users = list(users)
-		self.Sessions = {}
+	def __init__(self, users:list[User]):
+		self.__users = list(users)
+		self.__sessions = {}
 	
 	def login(self, username:str, password:str):
 		pass

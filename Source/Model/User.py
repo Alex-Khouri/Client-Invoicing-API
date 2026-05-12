@@ -1,23 +1,23 @@
 from .. import *
 
 class User:
-	username: str
-	password: str
-	role: USER_ROLE
+	__username: str
+	__password: str
+	__role: USER_ROLE
 
 	def __init__(self, username, password, role=USER_ROLE.NULL):
-		self.username = username
-		self.password = password
-		self.role = role
+		self.__username = username
+		self.__password = password
+		self.__role = role
 	
 	def getUsername(self):
-		return self.username
+		return self.__username
 	
 	def getPassword(self):
-		return self.password
+		return self.__password
 	
 	def getRole(self):
-		return self.role
+		return self.__role
 
 	def setUsername(self, newUsername:str):
 		if newUsername == "":
@@ -25,7 +25,7 @@ class User:
 		 		"Unable to assign empty username value")
 			return False
 
-		self.username = newUsername
+		self.__username = newUsername
 		return True
 	
 	def setPassword(self, newPassword:str):
@@ -33,7 +33,7 @@ class User:
 			ERROR(SOURCE.USER, "Unable to assign empty password value")
 			return False
 
-		self.password = newPassword
+		self.__password = newPassword
 		return True
 	
 	def setRole(self, newRole:USER_ROLE):
@@ -41,5 +41,5 @@ class User:
 			ERROR(SOURCE.USER, "Unable to assign null role value")
 			return False
 		
-		self.role = newRole
+		self.__role = newRole
 		return True

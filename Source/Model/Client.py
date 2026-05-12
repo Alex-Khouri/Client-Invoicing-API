@@ -1,46 +1,47 @@
 from .. import *
 
 class Client:
-	name: str
-	projects: list
+	__name: str
+	__projects: list[Project]
 
 	def __init__(self, name:str):
-		self.name = name
-		self.projects = []
+		self.__name = name
+		self.__projects = []
 	
 	def getName(self):
-		return self.name
+		return self.__name
 	
 	def getProjects(self):
-		return self.projects
+		return self.__projects
 	
 	def setName(self, newName:str):
 		if newName == "":
 			ERROR(SOURCE.CLIENT, "Unable to assign empty name value")
-			return
+			return False
 
-		self.name = newName
+		self.__name = newName
+		return True
 	
-	def setProjects(self, newProjects:list):
-		self.projects = list(newProjects)
+	def setProjects(self, newProjects:list[Project]):
+		self.__projects = list(newProjects)
 	
 	def addProject(self, newProject:Project):
-		if newProject in self.projects:
+		if newProject in self.__projects:
 			WARNING(SOURCE.CLIENT,\
-		   		f"Unable to add {newProject.getName()} to {self.name} client, as project is already contained within client's collection")
+		   		f"Unable to add {newProject.getName()} to {self.__name} client, as project is already contained within client's collection")
 			return False
 		
-		self.projects.append(newProject)
+		self.__projects.append(newProject)
 		return True
 	
 	def removeProject(self, newProject:Project):
-		if newProject not in self.projects:
+		if newProject not in self.__projects:
 			WARNING(SOURCE.CLIENT,\
-		   		f"Unable to remove {newProject.getName()} from {self.name} client, as project isn't contained within current collection")
+		   		f"Unable to remove {newProject.getName()} from {self.__name} client, as project isn't contained within current collection")
 			return False
 		
-		self.projects.remove(newProject)
+		self.__projects.remove(newProject)
 		return True
 	
 	def clearProjects(self):
-		self.projects.clear()
+		self.__projects.clear()

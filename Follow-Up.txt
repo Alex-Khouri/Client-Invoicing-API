@@ -1,13 +1,16 @@
 --- Further Development Opportunities ---
 
-* More thorough validation for model object property assignments
-* Comprehensive use of type hints
-* More precautionary data validation checks within model classes
+* More thorough validation for object property assignments
+* More comprehensive use of type hints (e.g. function return types)
+* More precautionary data validation checks within model classes (i.e. checking logically associated data fields)
 * Impose restrictions for user passwords (e.g. mixed character types, minimum length)
 
 --- Considerations for Productionisation ---
 
 * Ensure that end-to-end encryption is implemented (for ensuring password security)
+* When integrating the API with the front-end application, it's helpful for the date values of invoice entries to reflect the timezone of the user (rather than that of the API). Therefore the front-end application should provide one of the following:
+	- Current date
+	- Timezone (which is subsequently used by the API to generate the date)
 
 --- Follow-Up Questions for Client ---
 
