@@ -5,13 +5,13 @@ class InvoiceEntry:
 	__name: str
 	__amount: float
 	__date: datetime.date
-	__invoice: Invoice
+	__parentInvoice: Invoice
 
 	def __init__(self, name:str, amount:float):
 		self.__name = name
 		self.__amount = amount
 		self.__date = date.today()
-		self.__invoice = None
+		self.__parentInvoice = None
 	
 	def getName(self):
 		return self.__name
@@ -22,8 +22,8 @@ class InvoiceEntry:
 	def getDate(self):
 		return self.__date
 	
-	def getInvoice(self):
-		return self.__invoice
+	def getParentInvoice(self):
+		return self.__parentInvoice
 	
 	def setName(self, newName:str):
 		if newName == "":
@@ -36,5 +36,5 @@ class InvoiceEntry:
 	def setAmount(self, newAmount:float):
 		self.__amount = newAmount
 
-	def setInvoice(self, newInvoice:Invoice):
-		self.__invoice = newInvoice
+	def setParentInvoice(self, newInvoice:Invoice):
+		self.__parentInvoice = newInvoice

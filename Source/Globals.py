@@ -15,7 +15,11 @@ class SOURCE(Enum):
 	CLIENT = "CLIENT",
 	PROJECT = "PROJECT",
 	USER = "USER"
-	
+
+class INVOICE_ADJUSTMENT(Enum):
+	NULL = "NULL",
+	ADD = "ADD",
+	REMOVE = "REMOVE"
 
 class INVOICE_STATE(Enum):
 	NULL = "NULL"

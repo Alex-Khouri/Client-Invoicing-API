@@ -2,40 +2,41 @@ from .. import *
 
 class Project:
 	__name: str
-	__client: Client
 	__invoices: list[Invoice]
+	__parentClient: Client
 
 	def __init__(self, name:str):
 		self.__name = name
-		self.__client = None
 		self.__invoices = []
+		self.__parentClient = None
 	
 	def getName(self):
 		return self.__name
 	
-	def getClient(self):
-		return self.__client
+	def getParentClient(self):
+		return self.__parentClient
 	
 	def getInvoice(self):
 		return self.__invoices
 	
 	def setName(self, newName:str):
 		if newName == "":
-			ERROR(SOURCE.PROJECT,\
+			ERROR(SOURCE.PROJECT, \
 		 		"Unable to assign empty name value")
-			return
+			return False
 		
 		self.__name = newName
+		return True
 	
-	def setClient(self, newClient:Client):
-		self.__client = newClient
+	def setParentClient(self, newClient:Client):
+		self.__parentClient = newClient
 
 	def setInvoices(self, newInvoices:list[Invoice]):
 		self.__invoices = newInvoices
 
 	def addInvoice(self, newInvoice:Invoice):
 		if newInvoice in self.__invoices:
-			WARNING(SOURCE.PROJECT,\
+			WARNING(SOURCE.PROJECT, \
 		   		f"Unable to add invoice to {self.__name} project, as invoice is already contained within client's collection")
 			return False
 		
@@ -44,7 +45,7 @@ class Project:
 
 	def removeInvoice(self, invoice:Invoice):
 		if invoice not in self.__invoices:
-			WARNING(SOURCE.PROJECT,\
+			WARNING(SOURCE.PROJECT, \
 		   		f"Unable to remove invoice from {self.__name} project, as invoice isn't contained within current collection")
 			return False
 		

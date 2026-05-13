@@ -27,7 +27,7 @@ class Client:
 	
 	def addProject(self, newProject:Project):
 		if newProject in self.__projects:
-			WARNING(SOURCE.CLIENT,\
+			WARNING(SOURCE.CLIENT, \
 		   		f"Unable to add {newProject.getName()} to {self.__name} client, as project is already contained within client's collection")
 			return False
 		
@@ -36,7 +36,7 @@ class Client:
 	
 	def removeProject(self, newProject:Project):
 		if newProject not in self.__projects:
-			WARNING(SOURCE.CLIENT,\
+			WARNING(SOURCE.CLIENT, \
 		   		f"Unable to remove {newProject.getName()} from {self.__name} client, as project isn't contained within current collection")
 			return False
 		

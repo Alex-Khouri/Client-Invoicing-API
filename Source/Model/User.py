@@ -21,7 +21,7 @@ class User:
 
 	def setUsername(self, newUsername:str):
 		if newUsername == "":
-			ERROR(SOURCE.USER,\
+			ERROR(SOURCE.USER, \
 		 		"Unable to assign empty username value")
 			return False
 
