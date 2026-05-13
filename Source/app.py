@@ -31,8 +31,26 @@ def logoutAll():
 	session = request.args.get("session", None)
 	return 200
 
+# e.g. /client-name?session=123
+@app.route("/<str:clientName>", methods=["GET"])
+def invoiceAction():
+	session = request.args.get("session", None)
+	return 200
+
+# e.g. /client-name/project-name?session=123
+@app.route("/<str:clientName>/<str:projectName>", methods=["GET"])
+def invoiceAction():
+	session = request.args.get("session", None)
+	return 200
+
 # e.g. /client-name/project-name/invoice?session=123
 @app.route("/<str:clientName>/<str:projectName>/invoice", methods=["POST"])
+def invoiceAction():
+	session = request.args.get("session", None)
+	return 200
+
+# e.g. /client-name/project-name/123?session=456
+@app.route("/<str:clientName>/<str:projectName>/<int:invoiceID>", methods=["GET"])
 def invoiceAction():
 	session = request.args.get("session", None)
 	return 200
@@ -43,11 +61,13 @@ def invoiceAction():
 	session = request.args.get("session", None)
 	return 200
 
-# e.g. /client-name/project-name/123?session=456&action=adjust
+# e.g. /client-name/project-name/123?session=456&action=adjust&adjustmentName=test&adjustmentAmount=20.50
 @app.route("/<str:clientName>/<str:projectName>/<int:invoiceID>", methods=["PATCH"])
 def invoiceAction():
 	session = request.args.get("session", None)
-	action = request.args.get("action")
+	action = request.args.get("action", None)
+	adjustmentName = request.args.get("adjustmentName", None) # Optional
+	adjustmentAmount = request.args.get("adjustmentAmount", None) # Optional
 	return 200
 
 app.run(port=APP_PORT, debug=True)

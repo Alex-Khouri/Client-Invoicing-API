@@ -20,6 +20,7 @@
 
 --- Follow-Up Questions for Client ---
 
-* Under what conditions can adjustments be made to invoices? (i.e. which stage of the process is the cut-off for this action?)
 * Do invoices need to be re-approved after adjustments are made?
 * Can invoices be edited after being sent to clients (e.g. if they're disputed), or is it necessary to create new invoices (and render existing ones 'Cancelled')?
+* If invoices can be edited after being sent to clients, do they need re-approval?
+* What kind of information should be included in billing history reports?
