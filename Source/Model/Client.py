@@ -1,4 +1,6 @@
-from .. import *
+from ..Globals import *
+
+from ..Model.Project import Project
 
 class Client:
 	__name: str

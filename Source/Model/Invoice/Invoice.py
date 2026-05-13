@@ -1,17 +1,26 @@
-from ... import *
+from ...Globals import *
+
+from ...Model.Invoice.InvoiceEntry import InvoiceEntry
+from ...Model.Invoice.InvoiceAdjustment import InvoiceAdjustment
+from ...Model.Project import Project
 
 class Invoice:
+	__id: int
 	__entries: list[InvoiceEntry]
 	__total: float
 	__state: INVOICE_STATE
 	__parentProject: Project
 
-	def __init__(self, amount, state=INVOICE_STATE.DRAFT):
+	def __init__(self, project:Project):
+		self.__id = NULL_INVOICE_ID
 		self.__entries = []
-		self.__total = amount
-		self.__state = state
-		self.__parentProject = None
+		self.__total = 0
+		self.__state = INVOICE_STATE.DRAFT
+		self.__parentProject = project
 	
+	def getID(self):
+		return self.__id
+
 	def getEntries(self):
 		return self.__entries
 
@@ -24,6 +33,9 @@ class Invoice:
 	def getParentProject(self):
 		return self.__parentProject
 	
+	def setID(self, newID):
+		self.__id = newID
+
 	def setEntries(self, newEntries:list[InvoiceEntry]):
 		if self.__state == INVOICE_STATE.PAID:
 			WARNING(SOURCE.INVOICE, \
@@ -54,9 +66,21 @@ class Invoice:
 			WARNING(SOURCE.INVOICE, \
 		   		f"Invalid attempted state transition:\n----Current State: {self.__state}\n----New State: {newState}")
 			return False
-		
+
 	def setParentProject(self, newProject:Project):
 		self.__parentProject = newProject
+	
+	def approve(self):
+		return self.setState(INVOICE_STATE.APPROVED)
+	
+	def draft(self):
+		return self.setState(INVOICE_STATE.DRAFT)
+	
+	def send(self):
+		return self.setState(INVOICE_STATE.SENT)
+
+	def pay(self):
+		return self.setState(INVOICE_STATE.PAID)
 	
 	def addEntry(self, newEntry:InvoiceEntry):
 		if self.__state == INVOICE_STATE.PAID:
@@ -131,4 +155,4 @@ class Invoice:
 		projectName = self.__parentProject.getName() if \
 						self.__parentProject is not None else \
 							"NONE"
-		return f"{clientName}/{projectName}"
+		return f"{clientName}/{projectName}/INV{self.id}"

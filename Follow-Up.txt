@@ -6,8 +6,9 @@
 * Impose restrictions for user passwords (e.g. mixed character types, minimum length)
 * Implement timed expiry system for authentication session tokens
 * Implement thread-locking mechanisms in all controllers to prevent race conditions with data processing
-* Expand error-handling
 * Determine whether any other early returns within controllers should also raise warnings/errors (i.e. if those pathways indicate issues with back-end functionality)
+* Use separate factories to generate model objects (rather than controllers)
+* It would be more robust to implement unique ID management systems for all system entities (i.e. not just invoices), to avoid the problems that can arise with uniquely identifying entities by text names (e.g. duplicate entity names caused by text character restrictions)
 
 --- Considerations for Productionisation ---
 

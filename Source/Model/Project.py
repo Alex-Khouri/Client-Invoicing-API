@@ -1,4 +1,7 @@
-from .. import *
+from ..Globals import *
+
+from ..Model.Invoice.Invoice import Invoice
+from ..Model.Client import Client
 
 class Project:
 	__name: str

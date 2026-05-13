@@ -1,4 +1,8 @@
-from ... import *
+from ...Globals import *
+
+from ...Model.Invoice.Invoice import Invoice
+from ...Model.Invoice.InvoiceEntry import InvoiceEntry
+from ...Model.User import User
 
 class InvoiceAdjustment:
 	__entry: InvoiceEntry

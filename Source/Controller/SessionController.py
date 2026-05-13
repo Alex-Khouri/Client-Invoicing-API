@@ -1,4 +1,6 @@
-from .. import *
+from ..Globals import *
+
+from ..Model.User import User
 
 class SessionController:
 	__users: list[User]
@@ -53,7 +55,10 @@ class SessionController:
 		return newSessionCode
 	
 	def logoutSession(self, sessionCode:int):
-		return self.__sessionCodes.pop(sessionCode, None) is not None
+		success = self.__sessionCodes.pop(sessionCode, None) is not None
+		if success:
+			self.__nextSessionCode = min(self.__nextSessionCode, sessionCode)
+		return success
 
 	def logoutAllSessions(self, sessionCode:int):
 		success = True
