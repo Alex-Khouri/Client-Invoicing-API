@@ -1,6 +1,13 @@
 from datetime import datetime
 from enum import Enum
 
+
+APP_PORT = 8080
+
+NULL_SESSION_CODE	= 0
+MIN_SESSION_CODE	= 1
+MAX_SESSION_CODE	= (2 ** 63) - 1	# Maximum positive signed 64-bit value
+
 class SOURCE(Enum):
 	# General
 	APP = "APP",

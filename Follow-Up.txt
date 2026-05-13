@@ -2,12 +2,17 @@
 
 * More thorough validation for object property assignments
 * More comprehensive use of type hints (e.g. function return types)
-* More precautionary data validation checks within model classes (i.e. checking logically associated data fields)
+* Precautionary data validation checks within model classes (i.e. checking logically associated data fields)
 * Impose restrictions for user passwords (e.g. mixed character types, minimum length)
+* Implement timed expiry system for authentication session tokens
+* Implement thread-locking mechanisms in all controllers to prevent race conditions with data processing
+* Expand error-handling
+* Determine whether any other early returns within controllers should also raise warnings/errors (i.e. if those pathways indicate issues with back-end functionality)
 
 --- Considerations for Productionisation ---
 
-* Ensure that end-to-end encryption is implemented (for ensuring password security)
+* Ensure that end-to-end encryption is implemented (for ensuring password security during authentication)
+* Ensure that user passwords are encrypted before being stored in persistent storage
 * When integrating the API with the front-end application, it's helpful for the date values of invoice entries to reflect the timezone of the user (rather than that of the API). Therefore the front-end application should provide one of the following:
 	- Current date
 	- Timezone (which is subsequently used by the API to generate the date)

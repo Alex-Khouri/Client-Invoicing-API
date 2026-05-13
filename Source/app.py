@@ -1,3 +1,5 @@
+from . import *
+
 from flask import Flask
 
 app = Flask(__name__)
@@ -7,4 +9,4 @@ def home():
 	pass
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(port=APP_PORT, debug=True)
