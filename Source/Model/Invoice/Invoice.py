@@ -1,17 +1,16 @@
 from ...Globals import *
 
-from ...Model.Invoice.InvoiceEntry import InvoiceEntry
-from ...Model.Invoice.InvoiceAdjustment import InvoiceAdjustment
-from ...Model.Project import Project
+from .InvoiceAdjustment import InvoiceAdjustment
+from .InvoiceEntry import InvoiceEntry
 
 class Invoice:
 	__id: int
 	__entries: list[InvoiceEntry]
 	__total: float
 	__state: INVOICE_STATE
-	__parentProject: Project
+	__parentProject: any
 
-	def __init__(self, project:Project):
+	def __init__(self, project):
 		self.__id = NULL_INVOICE_ID
 		self.__entries = []
 		self.__total = 0
@@ -67,7 +66,7 @@ class Invoice:
 		   		f"Invalid attempted state transition:\n----Current State: {self.__state}\n----New State: {newState}")
 			return False
 
-	def setParentProject(self, newProject:Project):
+	def setParentProject(self, newProject):
 		self.__parentProject = newProject
 	
 	def approve(self):

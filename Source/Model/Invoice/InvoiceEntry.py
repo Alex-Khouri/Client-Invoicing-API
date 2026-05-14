@@ -1,14 +1,12 @@
 from ...Globals import *
 
-from ...Model.Invoice.Invoice import Invoice
-
 from datetime import date
 
 class InvoiceEntry:
 	__name: str
 	__amount: float
 	__date: date
-	__parentInvoice: Invoice
+	__parentInvoice: any
 
 	def __init__(self, name:str, amount:float):
 		self.__name = name
@@ -39,5 +37,5 @@ class InvoiceEntry:
 	def setAmount(self, newAmount:float):
 		self.__amount = newAmount
 
-	def setParentInvoice(self, newInvoice:Invoice):
+	def setParentInvoice(self, newInvoice):
 		self.__parentInvoice = newInvoice

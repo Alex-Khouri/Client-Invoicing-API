@@ -1,14 +1,13 @@
 from ...Globals import *
 
-from ...Model.Invoice.Invoice import Invoice
-from ...Model.Invoice.InvoiceEntry import InvoiceEntry
-from ...Model.User import User
+from .InvoiceEntry import InvoiceEntry
+from ..User import User
 
 class InvoiceAdjustment:
 	__entry: InvoiceEntry
 	__type: INVOICE_ADJUSTMENT
 	__user: User
-	__parentInvoice: Invoice
+	__parentInvoice: any
 
 	def __init__(self):
 		self.__entry = None

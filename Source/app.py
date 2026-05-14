@@ -32,38 +32,38 @@ def logoutAll():
 	return 200
 
 # e.g. /client-name?session=123
-@app.route("/<str:clientName>", methods=["GET"])
-def invoiceAction():
+@app.route("/client/<string:clientName>", methods=["GET"])
+def getClientInvoices(clientName:str):
 	session = request.args.get("session", None)
 	return 200
 
 # e.g. /client-name/project-name?session=123
-@app.route("/<str:clientName>/<str:projectName>", methods=["GET"])
-def invoiceAction():
+@app.route("/client/<string:clientName>/project/<string:projectName>", methods=["GET"])
+def getProjectInvoices(clientName:str, projectName:str):
 	session = request.args.get("session", None)
 	return 200
 
 # e.g. /client-name/project-name/invoice?session=123
-@app.route("/<str:clientName>/<str:projectName>/invoice", methods=["POST"])
-def invoiceAction():
+@app.route("/client/<string:clientName>/project/<string:projectName>/invoice", methods=["POST"])
+def createProjectInvoice(clientName:str, projectName:str):
 	session = request.args.get("session", None)
 	return 200
 
 # e.g. /client-name/project-name/123?session=456
-@app.route("/<str:clientName>/<str:projectName>/<int:invoiceID>", methods=["GET"])
-def invoiceAction():
+@app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["GET"])
+def getProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 	session = request.args.get("session", None)
 	return 200
 
-# e.g. /client-name/project-name/123?session=456
-@app.route("/<str:clientName>/<str:projectName>/<int:invoiceID>", methods=["DELETE"])
-def invoiceAction():
+# e.g. /client-name/project-name/invoice-123?session=456
+@app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["DELETE"])
+def deleteProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 	session = request.args.get("session", None)
 	return 200
 
-# e.g. /client-name/project-name/123?session=456&action=adjust&adjustmentName=test&adjustmentAmount=20.50
-@app.route("/<str:clientName>/<str:projectName>/<int:invoiceID>", methods=["PATCH"])
-def invoiceAction():
+# e.g. /client-name/project-name/invoice-123?session=456&action=adjust&adjustmentName=test&adjustmentAmount=20.50
+@app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["PATCH"])
+def updateProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 	session = request.args.get("session", None)
 	action = request.args.get("action", None)
 	adjustmentName = request.args.get("adjustmentName", None) # Optional

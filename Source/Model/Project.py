@@ -1,12 +1,11 @@
 from ..Globals import *
 
 from ..Model.Invoice.Invoice import Invoice
-from ..Model.Client import Client
 
 class Project:
 	__name: str
 	__invoices: list[Invoice]
-	__parentClient: Client
+	__parentClient: any
 
 	def __init__(self, name:str):
 		self.__name = name
@@ -31,7 +30,7 @@ class Project:
 		self.__name = newName
 		return True
 	
-	def setParentClient(self, newClient:Client):
+	def setParentClient(self, newClient):
 		self.__parentClient = newClient
 
 	def setInvoices(self, newInvoices:list[Invoice]):

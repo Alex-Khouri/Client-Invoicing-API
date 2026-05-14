@@ -6,13 +6,8 @@ class SessionController:
 	__users: list[User]
 	__sessionCodes: dict[int:User]
 	__nextSessionCode: int
-
-	def __init__(self):
-		self.__users = []
-		self.__sessionCodes = {}
-		self.__nextSessionCode = MIN_SESSION_CODE
 	
-	def __init__(self, users:list[User]):
+	def __init__(self, users:list[User]=[]):
 		self.__users = list(users)
 		self.__sessionCodes = {}
 		self.__nextSessionCode = MIN_SESSION_CODE

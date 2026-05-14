@@ -1,8 +1,8 @@
 --- Requirements ---
 
-* Python 3
+* Python 3.10 or greater
 * Python libraries:
-	- Flask
+	- Flask 3.0.0 or greater
 
 --- Instructions ---
 
