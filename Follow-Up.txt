@@ -12,7 +12,7 @@
 
 --- Considerations for Productionisation ---
 
-* Ensure that end-to-end encryption is implemented (for ensuring password security during authentication)
+* Ensure that end-to-end encryption is implemented (for ensuring password and session token security during authentication)
 * Ensure that user passwords are encrypted before being stored in persistent storage
 * When integrating the API with the front-end application, it's helpful for the date values of invoice entries to reflect the timezone of the user (rather than that of the API). Therefore the front-end application should provide one of the following:
 	- Current date

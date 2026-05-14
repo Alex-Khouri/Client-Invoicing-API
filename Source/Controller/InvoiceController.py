@@ -2,19 +2,16 @@ from ..Globals import *
 
 from ..Model.Invoice.Invoice import Invoice
 from ..Model.Invoice.InvoiceAdjustment import InvoiceAdjustment
-from ..Model.Client import Client
 from ..Model.Project import Project
 
+# TODO!: 
+
 class InvoiceController:
-	__clients: dict[str:Client]
-	__projects: dict[str:Project]
 	__invoices: dict[int:Invoice]
 	__invoiceAdjustments: dict[Invoice:list[InvoiceAdjustment]]
 	__nextInvoiceID: int
 	
 	def __init__(self):
-		self.__clients = {}
-		self.__projects = {}
 		self.__invoices = {}
 		self.__invoiceAdjustments = {}
 		self.__nextInvoiceID = MIN_INVOICE_ID
@@ -47,21 +44,5 @@ class InvoiceController:
 		return success
 
 	def adjustInvoice(self, invoice:Invoice):
-		# TODO!: Finish this
-		pass
-
-	def draftInvoice(self, invoice:Invoice):
-		# TODO!: Finish this
-		pass
-
-	def approveInvoice(self, invoice:Invoice):
-		# TODO!: Finish this
-		pass
-	
-	def sendInvoice(self, invoice:Invoice):
-		# TODO!: Finish this
-		pass
-	
-	def payInvoice(self, invoice:Invoice):
 		# TODO!: Finish this
 		pass

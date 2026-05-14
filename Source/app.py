@@ -1,16 +1,20 @@
 from .Globals import *
 
+from .Controller.ClientProjectController import ClientProjectController
 from .Controller.InvoiceController import InvoiceController
 from .Controller.SessionController import SessionController
 
 from flask import Flask, request
 
+clientProjectController = ClientProjectController()
 invoiceController = InvoiceController()
 sessionController = SessionController()
 
 app = Flask(__name__)
 
-# TODO!: Finish implementing endpoints
+@app.route("/test", methods=["GET"])
+def test():
+	return {"item1": 1, "item2": 2, "item3": 3}
 
 # /login?username=text&password=text
 @app.route("/login", methods=["GET"])
