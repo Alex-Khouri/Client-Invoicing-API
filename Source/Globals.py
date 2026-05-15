@@ -8,27 +8,31 @@ NULL_INVOICE_ID		= 0
 MIN_INVOICE_ID		= 1
 MAX_INVOICE_ID		= (2 ** 63) - 1	# Maximum positive signed 64-bit value
 
-NULL_SESSION_CODE	= 0
-MIN_SESSION_CODE	= 1
-MAX_SESSION_CODE	= (2 ** 63) - 1	# Maximum positive signed 64-bit value
+NULL_SESSION_TOKEN	= 0
+MIN_SESSION_TOKEN	= 1
+MAX_SESSION_TOKEN	= (2 ** 63) - 1	# Maximum positive signed 64-bit value
 
 class SOURCE(Enum):
 	# General
-	APP 					= "APP",
-	GLOBALS 				= "GLOBALS",
+	APP 						= "APP",
+	GLOBALS 					= "GLOBALS"
 	# Controller
-	INVOICE_CONTROLLER		= "INVOICE_CONTROLLER",
-	SESSION_CONTROLLER		= "SESSION_CONTROLLER",
+	CLIENT_PROJECT_CONTROLLER	= "CLIENT_PROJECT_CONTROLLER"
+	INVOICE_CONTROLLER			= "INVOICE_CONTROLLER"
+	SESSION_CONTROLLER			= "SESSION_CONTROLLER"
 	# Model
-	INVOICE 				= "INVOICE",
-	INVOICE_ADJUSTMENT		= "INVOICE_ADJUSTMENT",
-	INVOICE_ENTRY 			= "INVOICE_ENTRY",
-	CLIENT 					= "CLIENT",
-	PROJECT 				= "PROJECT",
-	USER					= "USER"
+	INVOICE 					= "INVOICE"
+	INVOICE_ADJUSTMENT			= "INVOICE_ADJUSTMENT"
+	INVOICE_ENTRY 				= "INVOICE_ENTRY"
+	CLIENT 						= "CLIENT"
+	PROJECT 					= "PROJECT"
+	USER						= "USER"
 
 class INVOICE_ACTION(Enum):
 	NULL		= "NULL"
+	##############################
+	# HTTP: GET
+	REPORT		= "REPORT"
 	##############################
 	# HTTP: POST
 	CREATE		= "CREATE"
@@ -45,8 +49,8 @@ class INVOICE_ACTION(Enum):
 	##############################
 
 class INVOICE_ADJUSTMENT(Enum):
-	NULL 		= "NULL",
-	ADD 		= "ADD",
+	NULL 		= "NULL"
+	ADD 		= "ADD"
 	REMOVE 		= "REMOVE"
 
 class INVOICE_STATE(Enum):
@@ -67,5 +71,13 @@ def LOG(source:SOURCE, message:str):
 def WARNING(source:SOURCE, message:str):
 	print(f"WARNING [{source}] [{datetime.now()}]: {message}")
 
+def WARNING_IF(condition:bool, source:SOURCE, message:str):
+	if condition:
+		print(f"WARNING [{source}] [{datetime.now()}]: {message}")
+
 def ERROR(source:SOURCE, message:str):
 	print(f"ERROR [{source}] [{datetime.now()}]: {message}")
+
+def ERROR_IF(condition:bool, source:SOURCE, message:str):
+	if condition:
+		print(f"ERROR [{source}] [{datetime.now()}]: {message}")

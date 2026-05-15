@@ -4,17 +4,17 @@ from ..Model.Invoice.Invoice import Invoice
 from ..Model.Invoice.InvoiceAdjustment import InvoiceAdjustment
 from ..Model.Project import Project
 
-# TODO!: 
-
 class InvoiceController:
 	__invoices: dict[int:Invoice]
 	__invoiceAdjustments: dict[Invoice:list[InvoiceAdjustment]]
 	__nextInvoiceID: int
+	__parentProject: Project
 	
-	def __init__(self):
+	def __init__(self, parentProject:Project=None):
 		self.__invoices = {}
 		self.__invoiceAdjustments = {}
 		self.__nextInvoiceID = MIN_INVOICE_ID
+		self.__parentProject = parentProject
 	
 	def cycleNextInvoiceID(self):
 		while self.__nextInvoiceID in self.__invoices.keys:
@@ -24,6 +24,9 @@ class InvoiceController:
 	
 	def getInvoice(self, invoiceID:int):
 		return self.__invoices.get(invoiceID, None)
+	
+	def getParentProject(self):
+		return self.__parentProject
 
 	def createInvoice(self, project:Project):
 		newInvoice = Invoice(project)
