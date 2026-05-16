@@ -2,25 +2,26 @@ from ..Globals import *
 
 from ..Model.User import User
 
-class SessionController:
-	__sessionTokens: dict[int:User]
+class UserAccessController:
+	__users: dict[str, User]
+	__sessionTokens: dict[int, User]
 	__nextSessionToken: int
 	
-	def __init__(self, users:dict[int:User]={}):
-		self.__sessionTokens = users
+	def __init__(self, users:list[User]=[]):
+		self.__users = {}
+		for user in users:
+			self.__users[user.getUsername()] = user
+		self.__sessionTokens = {}
 		self.__nextSessionToken = MIN_SESSION_TOKEN
 	
 	def cycleSessionToken(self):
-		while self.__nextSessionToken in self.__sessionTokens.keys:
+		while self.__nextSessionToken in self.__sessionTokens.keys():
 			self.__nextSessionToken += 1
 			if self.__nextSessionToken > MAX_SESSION_TOKEN:
 				self.__nextSessionToken = MIN_SESSION_TOKEN
 
 	def getUser(self, username:str):
-		for user in self.__sessionTokens.values:
-			if user.getUsername() == username:
-				return user
-		return None
+		return self.__users.get(username, None)
 	
 	def targetToken(self, targetToken:int):
 		tokens = []
@@ -33,6 +34,25 @@ class SessionController:
 				tokens.append(key)
 		
 		return tokens
+
+	def register(self, username:str, password:str, roleString:str):
+		if username in self.__users.keys() or len(username) < 1 or len(password) < 1:
+			return False
+		
+		try:
+			role = USER_ROLE[roleString]
+			newUser = User(username, password, role)
+			self.__users[username] = newUser
+		except KeyError:
+			WARNING(SOURCE.USER_ACCESS_CONTROLLER,
+		   		f"Invalid user role string provided when attempting to create new user account for '{username}': {roleString}")
+			return False
+		except Exception as e:
+			WARNING(SOURCE.USER_ACCESS_CONTROLLER,
+		   		f"Unable to create new user account for '{username}' due to runtime error:\n{e}")
+			return False
+
+		return True
 
 	def login(self, username:str, password:str):
 		user = self.getUser(username)
@@ -62,7 +82,7 @@ class SessionController:
 	def userCanPerformInvoiceAction(self, sessionToken:int, action:INVOICE_ACTION):
 		user = self.__sessionTokens.get(sessionToken, None)
 		if user == None:
-			ERROR(SOURCE.SESSION_CONTROLLER, \
+			ERROR(SOURCE.USER_ACCESS_CONTROLLER,
 		 		f"Unable to check user access for {action} invoice action, due to invalid session token: {sessionToken}")
 			return False
 		
@@ -83,6 +103,6 @@ class SessionController:
 		elif action == INVOICE_ACTION.PAY:
 			return user.getRole() == USER_ROLE.STAFF
 		else:
-			WARNING(SOURCE.SESSION_CONTROLLER, \
+			WARNING(SOURCE.USER_ACCESS_CONTROLLER,
 		   		f"Invalid invoice action checked for user permission: {action}")
 			return False

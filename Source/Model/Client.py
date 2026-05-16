@@ -4,17 +4,20 @@ from ..Model.Project import Project
 
 class Client:
 	__name: str
-	__projects: list[Project]
+	__projects: dict[str, Project]
 
 	def __init__(self, name:str):
 		self.__name = name
-		self.__projects = []
+		self.__projects = {}
 	
 	def getName(self):
 		return self.__name
-	
+
 	def getProjects(self):
-		return self.__projects
+		return self.__projects.values()
+	
+	def getProject(self, name:str):
+		return self.__projects.get(name, None)
 	
 	def setName(self, newName:str):
 		if newName == "":
@@ -25,25 +28,22 @@ class Client:
 		return True
 	
 	def setProjects(self, newProjects:list[Project]):
-		self.__projects = list(newProjects)
+		self.__projects.clear()
+		for project in newProjects:
+			self.__projects[project.getName()] = project
 	
 	def addProject(self, newProject:Project):
-		if newProject in self.__projects:
-			WARNING(SOURCE.CLIENT, \
+		if newProject in self.__projects.values():
+			WARNING(SOURCE.CLIENT,
 		   		f"Unable to add {newProject.getName()} to {self.__name} client, as project is already contained within client's collection")
 			return False
 		
-		self.__projects.append(newProject)
+		self.__projects[newProject.getName()] = newProject
 		return True
 	
-	def removeProject(self, newProject:Project):
-		if newProject not in self.__projects:
-			WARNING(SOURCE.CLIENT, \
-		   		f"Unable to remove {newProject.getName()} from {self.__name} client, as project isn't contained within current collection")
-			return False
-		
-		self.__projects.remove(newProject)
-		return True
-	
-	def clearProjects(self):
-		self.__projects.clear()
+	def removeProject(self, project:Project):
+		success = self.__projects.pop(project.getName(), None) != None
+		WARNING_IF(not success,
+			SOURCE.CLIENT,
+			f"Unable to remove {project.getName()} from {self.__name} client, as project isn't contained within current collection")
+		return success

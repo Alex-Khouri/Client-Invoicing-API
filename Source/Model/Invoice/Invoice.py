@@ -10,7 +10,7 @@ class Invoice:
 	__state: INVOICE_STATE
 	__parentProject: any
 
-	def __init__(self, project):
+	def __init__(self, project=None):
 		self.__id = NULL_INVOICE_ID
 		self.__entries = []
 		self.__total = 0
@@ -21,7 +21,7 @@ class Invoice:
 		return self.__id
 
 	def getEntries(self):
-		return self.__entries
+		return list(self.__entries)
 
 	def getTotal(self):
 		return self.__total
@@ -32,12 +32,15 @@ class Invoice:
 	def getParentProject(self):
 		return self.__parentProject
 	
+	def getTitle(self):
+		return f"INV{self.__id} - ${self.__total} - {self.__state}"
+	
 	def setID(self, newID):
 		self.__id = newID
 
 	def setEntries(self, newEntries:list[InvoiceEntry]):
 		if self.__state == INVOICE_STATE.PAID:
-			WARNING(SOURCE.INVOICE, \
+			WARNING(SOURCE.INVOICE,
 		   		f"Attempting to reassign entries on paid invoice")
 			return
 
@@ -62,7 +65,7 @@ class Invoice:
 			self.__state = newState
 			return True
 		else:
-			WARNING(SOURCE.INVOICE, \
+			WARNING(SOURCE.INVOICE,
 		   		f"Invalid attempted state transition:\n----Current State: {self.__state}\n----New State: {newState}")
 			return False
 
@@ -83,18 +86,18 @@ class Invoice:
 	
 	def addEntry(self, newEntry:InvoiceEntry):
 		if self.__state == INVOICE_STATE.PAID:
-			WARNING(SOURCE.INVOICE, \
+			WARNING(SOURCE.INVOICE,
 		   		f"Entries cannot be added to paid invoices")
 			return False
 		
 		if newEntry is None:
-			ERROR(SOURCE.INVOICE, \
+			ERROR(SOURCE.INVOICE,
 				f"Unable to add {newEntry.getName()} entry to {self} invoice, due to empty object reference")
 			return False
 		
 		if newEntry in self.__entries:
-			ERROR(SOURCE.INVOICE, \
-		 		f"Unable to add {newEntry.getName()} entry to {self} invoice, as invoice already contains entry")
+			ERROR(SOURCE.INVOICE,
+		 		f"Unable to add {newEntry.getDescription()} entry to {self} invoice, as invoice already contains entry")
 			return False
 		
 		self.__entries.append(newEntry)
@@ -105,18 +108,18 @@ class Invoice:
 	
 	def removeEntry(self, entry:InvoiceEntry):
 		if self.__state == INVOICE_STATE.PAID:
-			WARNING(SOURCE.INVOICE, \
+			WARNING(SOURCE.INVOICE,
 		   		f"Attempting to remove entry from paid invoice")
 			return False
 
 		if entry is None:
-			ERROR(SOURCE.INVOICE, \
+			ERROR(SOURCE.INVOICE,
 				f"Unable to remove {entry.getName()} entry from {self} invoice, due to empty object reference")
 			return False
 
 		if entry not in self.__entries:
-			ERROR(SOURCE.INVOICE, \
-		 		f"Unable to remove {entry.getName()} entry from {self} invoice, as invoice doesn't contain entry")
+			ERROR(SOURCE.INVOICE,
+		 		f"Unable to remove {entry.getDescription()} entry from {self} invoice, as invoice doesn't contain entry")
 			return False
 		
 		self.__entries.remove(entry)
@@ -127,7 +130,7 @@ class Invoice:
 	
 	def applyAdjustment(self, adjustment:InvoiceAdjustment):
 		if not adjustment.isValid():
-			ERROR(SOURCE.INVOICE, \
+			ERROR(SOURCE.INVOICE,
 		 		f"Unable to apply invalid adjustment to {self} invoice")
 			return False
 
@@ -142,16 +145,9 @@ class Invoice:
 				adjustment.setParentInvoice(self)
 			return success
 		else:
-			ERROR(SOURCE.INVOICE, \
+			ERROR(SOURCE.INVOICE,
 		 		f"Unable to process adjustment due to invalid type: {adjustment.getType()}")
 			return False
 
 	def __str__(self):
-		clientName = self.__parentProject.getParentClient().getName() if \
-						self.__parentProject is not None and \
-						self.__parentProject.getParentClient() is not None else \
-							"NONE"
-		projectName = self.__parentProject.getName() if \
-						self.__parentProject is not None else \
-							"NONE"
-		return f"{clientName}/{projectName}/INV{self.id}"
+		return f"INV{self.__id} - ${self.__total} - {self.__state}"

@@ -5,8 +5,8 @@ from ..Model.Invoice.InvoiceAdjustment import InvoiceAdjustment
 from ..Model.Project import Project
 
 class InvoiceController:
-	__invoices: dict[int:Invoice]
-	__invoiceAdjustments: dict[Invoice:list[InvoiceAdjustment]]
+	__invoices: dict[int, Invoice]
+	__invoiceAdjustments: dict[Invoice, list[InvoiceAdjustment]]
 	__nextInvoiceID: int
 	__parentProject: Project
 	
@@ -17,11 +17,14 @@ class InvoiceController:
 		self.__parentProject = parentProject
 	
 	def cycleNextInvoiceID(self):
-		while self.__nextInvoiceID in self.__invoices.keys:
+		while self.__nextInvoiceID in self.__invoices.keys():
 			self.__nextInvoiceID += 1
 			if self.__nextInvoiceID > MAX_INVOICE_ID:
 				self.__nextInvoiceID = MIN_INVOICE_ID
 	
+	def getInvoices(self):
+		return list(self.__invoices.values())
+
 	def getInvoice(self, invoiceID:int):
 		return self.__invoices.get(invoiceID, None)
 	

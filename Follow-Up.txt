@@ -1,14 +1,13 @@
 --- Further Development Opportunities ---
 
-* More thorough validation for object property assignments
-* More comprehensive use of type hints (e.g. function return types)
-* Precautionary data validation checks within model classes (i.e. checking logically associated data fields)
-* Impose restrictions for user passwords (e.g. mixed character types, minimum length)
-* Implement timed expiry system for authentication session tokens
+* Implement more strict password requirements (e.g. mixed character types, minimum length)
+* Implement timed expiry system for user session tokens
 * Implement thread-locking mechanisms in all controllers to prevent race conditions with data processing
-* Determine whether any other early returns within controllers should also raise warnings/errors (i.e. if those pathways indicate issues with back-end functionality)
+* Implement more granular reporting endpoints (so that specific invoice details can be obtained separately, e.g. invoice total, invoice state)
+* Implement precautionary data validation checks within model classes (i.e. checking logically associated data fields)
+* Implement unique ID management systems for all system entities (i.e. not just invoices), to avoid problems that can arise from uniquely identifying entities by text names (e.g. duplicate entity names caused by text character restrictions in some system layers, e.g. forward slashes in business names)
 * Use separate factories to generate model objects (rather than controllers)
-* It would be more robust to implement unique ID management systems for all system entities (i.e. not just invoices), to avoid the problems that can arise with uniquely identifying entities by text names (e.g. duplicate entity names caused by text character restrictions)
+* More comprehensive use of type hints (e.g. function return types)
 
 --- Considerations for Productionisation ---
 
@@ -26,4 +25,4 @@
 * What kind of information should be included in billing history reports?
 * Can invoices be deleted? If so:
 	- Can staff delete them without manager approval, or should deletion privileges be reserved for managers?
-	- Should complete removal of invoices be possible, or should they only be marked as 'Deleted' but retained in the system records?
+	- Should complete removal of invoices be possible, or should they only be marked as 'Deleted' but retained within the system records?

@@ -7,25 +7,25 @@ from ..Model.Project import Project
 
 class ClientProjectController:
 	__clients: dict[str, Client]
-	__projects: dict[str, Project]
+	__projects: dict[str, dict[str, Project]]
 	__invoiceControllers: dict[Project, InvoiceController]
 
 	def __init__(self):
-		self.__clients = []
-		self.__projects = []
+		self.__clients = {}
+		self.__projects = {}
 		self.__invoiceControllers = {}
 	
 	def getClient(self, name:str):
 		return self.__clients.get(name, None)
 
 	def getAllClients(self):
-		return self.__clients.values
+		return list(self.__clients.values())
 	
 	def getProject(self, name:str):
 		return self.__projects.get(name, None)
 
 	def getAllProjects(self):
-		return self.__projects.values
+		return list(self.__projects.values())
 	
 	def getInvoiceController(self, project:Project):
 		return self.__invoiceControllers.get(project, None)
