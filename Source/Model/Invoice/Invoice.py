@@ -10,8 +10,13 @@ class Invoice:
 	__state: INVOICE_STATE
 	__parentProject: any
 
-	def __init__(self, project=None):
-		self.__id = NULL_INVOICE_ID
+	def __init__(self, source:SOURCE, id=NULL_INVOICE_ID, project=None):
+		if source != SOURCE.INVOICE_CONTROLLER and id != NULL_INVOICE_ID:
+			self.__id = NULL_INVOICE_ID
+			WARNING(SOURCE.INVOICE,
+		   		f"Forbidden attempt to assign Invoice ID from source other than Invoice Controller (during object construction). Null ID value has been assigned as fallback.")
+		else:
+			self.__id = id
 		self.__entries = []
 		self.__total = 0
 		self.__state = INVOICE_STATE.DRAFT
@@ -134,12 +139,12 @@ class Invoice:
 		 		f"Unable to apply invalid adjustment to {self} invoice")
 			return False
 
-		if adjustment.getType() == INVOICE_ADJUSTMENT.ADD:
+		if adjustment.getType() == INVOICE_ENTRY.ADD:
 			success = self.addEntry(adjustment.getEntry())
 			if success:
 				adjustment.setParentInvoice(self)
 			return success
-		elif adjustment.getType() == INVOICE_ADJUSTMENT.REMOVE:
+		elif adjustment.getType() == INVOICE_ENTRY.REMOVE:
 			success = self.removeEntry(adjustment.getEntry())
 			if success:
 				adjustment.setParentInvoice(self)

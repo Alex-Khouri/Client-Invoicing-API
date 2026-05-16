@@ -8,10 +8,11 @@ class InvoiceEntry:
 	__description: str
 	__parentInvoice: any
 
-	def __init__(self, name:str, amount:float):
+	def __init__(self, amount:float=DEFAULT_INVOICE_ENTRY_AMOUNT,
+			  			description:str=DEFAULT_INVOICE_ENTRY_DESCRIPTION):
 		self.__date = date.today()
 		self.__amount = amount
-		self.__description = name
+		self.__description = description
 		self.__parentInvoice = None
 	
 	def getDate(self):

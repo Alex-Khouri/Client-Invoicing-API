@@ -3,7 +3,6 @@
 * Implement more strict password requirements (e.g. mixed character types, minimum length)
 * Implement timed expiry system for user session tokens
 * Implement thread-locking mechanisms in all controllers to prevent race conditions with data processing
-* Implement more granular reporting endpoints (so that specific invoice details can be obtained separately, e.g. invoice total, invoice state)
 * Implement precautionary data validation checks within model classes (i.e. checking logically associated data fields)
 * Implement unique ID management systems for all system entities (i.e. not just invoices), to avoid problems that can arise from uniquely identifying entities by text names (e.g. duplicate entity names caused by text character restrictions in some system layers, e.g. forward slashes in business names)
 * Use separate factories to generate model objects (rather than controllers)

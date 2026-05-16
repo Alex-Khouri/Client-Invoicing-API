@@ -32,6 +32,9 @@ class Client:
 		for project in newProjects:
 			self.__projects[project.getName()] = project
 	
+	def clearProjects(self):
+		self.__projects.clear()
+
 	def addProject(self, newProject:Project):
 		if newProject in self.__projects.values():
 			WARNING(SOURCE.CLIENT,

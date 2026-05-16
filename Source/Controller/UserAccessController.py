@@ -22,6 +22,9 @@ class UserAccessController:
 
 	def getUser(self, username:str):
 		return self.__users.get(username, None)
+
+	def getUserFromToken(self, token:int):
+		return self.__sessionTokens.get(token, None)
 	
 	def targetToken(self, targetToken:int):
 		tokens = []
@@ -35,23 +38,12 @@ class UserAccessController:
 		
 		return tokens
 
-	def register(self, username:str, password:str, roleString:str):
-		if username in self.__users.keys() or len(username) < 1 or len(password) < 1:
+	def register(self, username:str, password:str, role:USER_ROLE):
+		if username in self.__users.keys() or \
+			len(username) < 1 or len(password) < 1 or role == USER_ROLE.NULL:
 			return False
 		
-		try:
-			role = USER_ROLE[roleString]
-			newUser = User(username, password, role)
-			self.__users[username] = newUser
-		except KeyError:
-			WARNING(SOURCE.USER_ACCESS_CONTROLLER,
-		   		f"Invalid user role string provided when attempting to create new user account for '{username}': {roleString}")
-			return False
-		except Exception as e:
-			WARNING(SOURCE.USER_ACCESS_CONTROLLER,
-		   		f"Unable to create new user account for '{username}' due to runtime error:\n{e}")
-			return False
-
+		self.__users[username] = User(username, password, role)
 		return True
 
 	def login(self, username:str, password:str):

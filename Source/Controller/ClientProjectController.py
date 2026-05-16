@@ -6,9 +6,9 @@ from ..Model.Client import Client
 from ..Model.Project import Project
 
 class ClientProjectController:
-	__clients: dict[str, Client]
-	__projects: dict[str, dict[str, Project]]
-	__invoiceControllers: dict[Project, InvoiceController]
+	__clients: dict[str, Client]	# Client Name -> Client
+	__projects: dict[str, dict[str, Project]]	# Client Name -> Project Name -> Project
+	__invoiceControllers: dict[Project, InvoiceController]	# Project -> Controller
 
 	def __init__(self):
 		self.__clients = {}
@@ -21,11 +21,8 @@ class ClientProjectController:
 	def getAllClients(self):
 		return list(self.__clients.values())
 	
-	def getProject(self, name:str):
-		return self.__projects.get(name, None)
-
-	def getAllProjects(self):
-		return list(self.__projects.values())
+	def getProject(self, clientName:str, projectName:str):
+		self.__projects.get(clientName, []).get(projectName, None)
 	
 	def getInvoiceController(self, project:Project):
 		return self.__invoiceControllers.get(project, None)
@@ -35,34 +32,54 @@ class ClientProjectController:
 		self.__projects.clear()
 		self.__invoiceControllers.clear()
 		for client in clients:
-			self.__clients[client.getName()] = client
-			# Don't use 'setProjects' here because it clears collections on each call
+			clientName = client.GetName()
+			self.__clients[clientName] = client
+			self.__projects[clientName] = {}
 			for project in client.getProjects():
-				self.__projects[project.getName()] = project
+				self.__projects[clientName][project.getName()] = project
 				self.__invoiceControllers[project] = InvoiceController(project)
-
-	def setProjects(self, projects:list[Project]):
-		self.__projects.clear()
-		self.__invoiceControllers.clear()
-		for project in projects:
+	
+	def addClient(self, newClient:Client):
+		self.__clients[newClient.getName()] = newClient
+		self.__projects[newClient.getName()] = {}
+		for project in newClient.getProjects():
 			self.__projects[project.getName()] = project
-			self.__invoiceControllers[project] = InvoiceController(project)
+
+	def createClient(self, clientName:str):
+		newClient = Client(clientName)
+		self.addClient(newClient)
+		return newClient
 	
-	def addClient(self, client:Client):
-		self.__clients[client.getName()] = client
-		for project in client.getProjects():
-			self.addProject(project)
-	
-	def addProject(self, project:Project):
-		self.__projects[project.getName()] = project
-		self.__invoiceControllers[project] = InvoiceController(project)
+	def addProject(self, client:Client, newProject:Project):
+		clientName = client.getName()
+		if clientName not in self.__clients.keys() or client not in self.__clients.values():
+			self.__clients[clientName] = client
+		clientProjects = self.__projects.setdefault(clientName, [])
+		clientProjects[newProject.getName()] = newProject
+		self.__invoiceControllers[newProject] = InvoiceController(newProject)
+		client.addProject(newProject)
+		return newProject
+
+	def createProject(self, clientName:str, projectName:str):
+		client = self.getClient(clientName)
+		newProject = Project(projectName, client)
+		self.addProject(client, newProject)
+		return newProject
 	
 	def removeClient(self, client:Client):
-		success = self.__clients.pop(client.getName(), None) != None
+		clientName = client.getname()
+		success = self.__clients.pop(clientName, None) != None
+		success = success and self.__projects.pop(clientName, None) != None
 		for project in client.getProjects():
-			success = success and self.removeProject(project)
+			success = success and self.__invoiceControllers.pop(project, None) != None
+		client.clearProjects()
 		return success
 	
-	def removeProject(self, project:Project):
-		return self.__projects.pop(project.getName(), None) != None and \
-			self.__invoiceControllers.pop(project, None) != None
+	def removeProject(self, client:Client, project:Project):
+		# Success = false if client or project names don't exist at respective collection layers
+		success = self.__projects.setdefault(client.getName(),
+									   			[]).pop(project.getName(), None) != None
+		for project in client.getProjects():
+			success = success and self.__invoiceControllers.pop(project, None) != None
+		success = success and client.removeProject(project)
+		return success

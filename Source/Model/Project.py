@@ -7,10 +7,10 @@ class Project:
 	__invoices: dict[int, Invoice]
 	__parentClient: any
 
-	def __init__(self, name:str):
+	def __init__(self, name:str, client:any=None):
 		self.__name = name
 		self.__invoices = {}
-		self.__parentClient = None
+		self.__parentClient = client
 	
 	def getName(self):
 		return self.__name
