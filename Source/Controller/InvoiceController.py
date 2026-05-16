@@ -7,7 +7,7 @@ from ..Model.Project import Project
 from ..Model.User import User
 
 class InvoiceController:
-	__invoices: dict[int, Invoice]
+	__invoices: dict[int, Invoice]	# Invoice ID -> Invoice
 	__invoiceAdjustments: dict[Invoice, list[InvoiceAdjustment]]
 	__nextInvoiceID: int
 	__parentProject: Project
@@ -35,21 +35,24 @@ class InvoiceController:
 	def getParentProject(self):
 		return self.__parentProject
 
-	def createInvoice(self, project:Project):
+	def createInvoice(self):
+		if self.__parentProject == None:
+			return None
 		newID = self.__nextInvoiceID
-		newInvoice = Invoice(SOURCE.INVOICE_CONTROLLER, newID, project)
+		newInvoice = Invoice(SOURCE.INVOICE_CONTROLLER, newID, self.__parentProject)
 		self.__invoices[newID] = newInvoice
 		self.updateNextInvoiceID()
 		self.__invoiceAdjustments[newInvoice] = []
-		project.addInvoice(newInvoice)
+		self.__parentProject.addInvoice(newInvoice)
 		return newInvoice
 
 	def deleteInvoice(self, invoiceID:int):
 		invoice = self.getInvoice(invoiceID)
-		releasedID = invoiceID
-		success = self.__invoices.pop(releasedID, None) is not None and \
+		if invoice == None:
+			return False
+		success = self.__invoices.pop(invoiceID, None) is not None and \
 					self.__invoiceAdjustments.pop(invoice, None) is not None
-		self.updateNextInvoiceID(releasedID)
+		self.updateNextInvoiceID(invoiceID)
 		parentProject = invoice.getParentProject()
 		if parentProject is not None:
 			parentProject.removeInvoice(invoice)
@@ -69,16 +72,16 @@ class InvoiceController:
 				adjustments.append(adjustment)
 			return success
 		elif action == INVOICE_ACTION.DRAFT:
-			invoice.draft()
+			invoice.setState(INVOICE_STATE.DRAFT)
 			return True
 		elif action == INVOICE_ACTION.APPROVE:
-			invoice.approve()
+			invoice.setState(INVOICE_STATE.APPROVED)
 			return True
 		elif action == INVOICE_ACTION.SEND:
-			invoice.send()
+			invoice.setState(INVOICE_STATE.SENT)
 			return True
 		elif action == INVOICE_ACTION.PAY:
-			invoice.pay()
+			invoice.setState(INVOICE_STATE.PAID)
 			return True
 		else:
 			return False	# Don't raise warning, as this may be due to user error

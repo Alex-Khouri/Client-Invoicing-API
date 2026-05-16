@@ -49,6 +49,12 @@ class TestDataGenerator:
 		project2_2 = self.__clientProjectController.createClient(projectName2_2)
 
 		# Initialise invoices
+		invoice1_1 = self.__clientProjectController.createInvoice(project1_1)
+		invoice1_2 = self.__clientProjectController.createInvoice(project1_2)
+		invoice2_1 = self.__clientProjectController.createInvoice(project2_1)
+		invoice2_2 = self.__clientProjectController.createInvoice(project2_2)
+		# TODO: Log invoice numbers
+		LOG(SOURCE.TEST_DATA_GENERATOR, f"Available Invoice IDs:\n    * Invoice1_1: {invoice1_1.getID()}\n    * Invoice1_2: {invoice1_2.getID()}\n    * Invoice2_1: {invoice2_1.getID()}\n    * Invoice2_2: {invoice2_2.getID()}")
 
 		# Initialise invoice adjustments
 

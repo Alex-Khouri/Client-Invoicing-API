@@ -3,8 +3,8 @@ from ..Globals import *
 from ..Model.User import User
 
 class UserAccessController:
-	__users: dict[str, User]
-	__sessionTokens: dict[int, User]
+	__users: dict[str, User]	# Username -> User
+	__sessionTokens: dict[int, User]	# Session Token -> User
 	__nextSessionToken: int
 	
 	def __init__(self, users:list[User]=[]):

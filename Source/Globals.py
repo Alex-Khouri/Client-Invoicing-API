@@ -32,6 +32,8 @@ class SOURCE(Enum):
 	CLIENT 						= "CLIENT"
 	PROJECT 					= "PROJECT"
 	USER						= "USER"
+	# Test
+	TEST_DATA_GENERATOR			= "TEST_DATA_GENERATOR"
 
 # !!! IMPORTANT: All enum values MUST be upper-case (as this is relied upon by parsing functions)
 class INVOICE_ACTION(Enum):
@@ -57,7 +59,7 @@ class INVOICE_ACTION(Enum):
 class INVOICE_ENTRY(Enum):
 	NULL 		= "NULL"
 	ADD 		= "ADD"		# Add entry
-	REMOVE 		= "REMOVE"	# Remove entry (implementation TBC)
+	REMOVE 		= "REMOVE"	# Remove entry (*** NOT IMPLEMENTED ***)
 
 class INVOICE_STATE(Enum):
 	NULL 		= "NULL"

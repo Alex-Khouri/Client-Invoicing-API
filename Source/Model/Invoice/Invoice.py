@@ -77,18 +77,6 @@ class Invoice:
 	def setParentProject(self, newProject):
 		self.__parentProject = newProject
 	
-	def approve(self):
-		return self.setState(INVOICE_STATE.APPROVED)
-	
-	def draft(self):
-		return self.setState(INVOICE_STATE.DRAFT)
-	
-	def send(self):
-		return self.setState(INVOICE_STATE.SENT)
-
-	def pay(self):
-		return self.setState(INVOICE_STATE.PAID)
-	
 	def addEntry(self, newEntry:InvoiceEntry):
 		if self.__state == INVOICE_STATE.PAID:
 			WARNING(SOURCE.INVOICE,

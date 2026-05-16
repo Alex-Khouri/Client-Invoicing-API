@@ -3,12 +3,14 @@ from ..Globals import *
 from .InvoiceController import InvoiceController
 
 from ..Model.Client import Client
+from ..Model.Invoice import Invoice
 from ..Model.Project import Project
+from ..Model.User import User
 
 class ClientProjectController:
 	__clients: dict[str, Client]	# Client Name -> Client
 	__projects: dict[str, dict[str, Project]]	# Client Name -> Project Name -> Project
-	__invoiceControllers: dict[Project, InvoiceController]	# Project -> Controller
+	__invoiceControllers: dict[Project, InvoiceController]
 
 	def __init__(self):
 		self.__clients = {}
@@ -83,3 +85,22 @@ class ClientProjectController:
 			success = success and self.__invoiceControllers.pop(project, None) != None
 		success = success and client.removeProject(project)
 		return success
+	
+	def createInvoice(self, project:Project):
+		invoiceController = self.getInvoiceController(project)
+		if invoiceController == None:
+			return None
+		return invoiceController.createInvoice()
+	
+	def deleteInvoice(self, project:Project, invoiceID:int):
+		invoiceController = self.getInvoiceController(project)
+		if invoiceController == None:
+			return False
+		return invoiceController.deleteInvoice(invoiceID)
+	
+	def adjustInvoice(self, project:Project, user:User, invoice:Invoice,
+						action:INVOICE_ACTION, amount:float, description:str):
+		invoiceController = self.getInvoiceController(project)
+		if invoiceController == None:
+			return False
+		return invoiceController.adjustInvoice(user, invoice, action, amount, description)
