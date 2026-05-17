@@ -40,6 +40,7 @@ class INVOICE_ACTION(Enum):
 	NULL		= "NULL"
 	##############################
 	# HTTP: GET
+	READ		= "READ"
 	REPORT		= "REPORT"
 	##############################
 	# HTTP: POST

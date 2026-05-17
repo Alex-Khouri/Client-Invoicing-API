@@ -14,7 +14,7 @@ testDataGenerator.initialiseTestData()
 
 app = Flask(__name__)
 
-# Get test data
+# Get basic test data
 @app.route("/test", methods=["GET"])
 def test():
 	LOG(SOURCE.APP, "TEST ENDPOINT TRIGGERED")
@@ -23,7 +23,6 @@ def test():
 # /register?username=text&password=text&role=text
 @app.route("/register", methods=["POST"])
 def register():
-	# TODO: Test this endpoint
 	username = request.args.get("username", None)
 	password = request.args.get("password", None)
 	userRole = parseUserRole(request.args.get("role", None))
@@ -61,7 +60,7 @@ def logoutAll():
 	userAccessController.logoutAllSessions(sessionToken)
 	return make_response("", 200)
 
-# e.g. /client-name?session=123&outstandingOnly=true
+# e.g. /client/client-name?session=123&outstandingOnly=true
 @app.route("/client/<string:clientName>", methods=["GET"])
 def getClientReport(clientName:str):
 	sessionToken = parseSessionToken(request.args.get("session", None))
@@ -85,7 +84,7 @@ def getClientReport(clientName:str):
 		clientReport[clientName][projectName] = {}
 		for invoice in project.getInvoices():
 			if outstandingOnly and invoice.getState() != INVOICE_STATE.SENT:
-				pass
+				continue
 			invoiceTitle = invoice.getTitle()
 			clientReport[clientName][projectName][invoiceTitle] = []
 			for entry in invoice.getEntries():
@@ -93,7 +92,7 @@ def getClientReport(clientName:str):
 
 	return make_response(jsonify(clientReport), 200)
 
-# e.g. /client-name/project-name?session=123&outstandingOnly=true
+# e.g. /client/client-name/project/project-name?session=123&outstandingOnly=true
 @app.route("/client/<string:clientName>/project/<string:projectName>", methods=["GET"])
 def getProjectReport(clientName:str, projectName:str):
 	sessionToken = parseSessionToken(request.args.get("session", None))
@@ -120,7 +119,7 @@ def getProjectReport(clientName:str, projectName:str):
 	}
 	for invoice in project.getInvoices():
 		if outstandingOnly and invoice.getState() != INVOICE_STATE.SENT:
-				pass
+				continue
 		invoiceTitle = invoice.getTitle()
 		projectReport[clientName][projectName][invoiceTitle] = []
 		for entry in invoice.getEntries():
@@ -128,7 +127,7 @@ def getProjectReport(clientName:str, projectName:str):
 
 	return make_response(jsonify(projectReport), 200)
 
-# e.g. /client-name/project-name/invoice?session=123
+# e.g. /client/client-name/project/project-name/invoice?session=123
 @app.route("/client/<string:clientName>/project/<string:projectName>/invoice", methods=["POST"])
 def createProjectInvoice(clientName:str, projectName:str):
 	sessionToken = parseSessionToken(request.args.get("session", None))
@@ -153,7 +152,7 @@ def createProjectInvoice(clientName:str, projectName:str):
 	else:
 		return make_response(jsonify(newInvoice.getID()), 201)
 
-# e.g. /client-name/project-name/123?session=456
+# e.g. /client/client-name/project/project-name/invoice/123?session=456
 @app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["GET"])
 def getInvoiceReport(clientName:str, projectName:str, invoiceID:int):
 	sessionToken = parseSessionToken(request.args.get("session", None))
@@ -161,7 +160,7 @@ def getInvoiceReport(clientName:str, projectName:str, invoiceID:int):
 	if userAccessController.getUserFromToken(sessionToken) == None:
 		return make_response(jsonify({}), 401)
 
-	if not userAccessController.userCanPerformInvoiceAction(sessionToken, INVOICE_ACTION.REPORT):
+	if not userAccessController.userCanPerformInvoiceAction(sessionToken, INVOICE_ACTION.READ):
 		return make_response(jsonify({}), 403)
 	
 	client = clientProjectController.getClient(clientName)
@@ -189,7 +188,7 @@ def getInvoiceReport(clientName:str, projectName:str, invoiceID:int):
 
 	return make_response(jsonify(invoiceReport), 200)
 
-# e.g. /client-name/project-name/invoice-123?session=456
+# e.g. /client/client-name/project/project-name/invoice/123?session=456
 @app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["DELETE"])
 def deleteProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 	sessionToken = parseSessionToken(request.args.get("session", None))
@@ -213,10 +212,9 @@ def deleteProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 	else:
 		return make_response("", 404)
 
-# e.g. /client-name/project-name/invoice-123?session=456&action=adjust&amount=20.50&description=test
+# e.g. /client/client-name/project/project-name/invoice/123?session=456&action=adjust&amount=20.50&description=test
 @app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["PATCH"])
 def adjustProjectInvoice(clientName:str, projectName:str, invoiceID:int):
-	# TODO: Test this endpoint
 	sessionToken = parseSessionToken(request.args.get("session", None))
 	action = parseInvoiceAction(request.args.get("action", None))
 	amount = parseAdjustmentAmount(request.args.get("amount", None)) # Optional

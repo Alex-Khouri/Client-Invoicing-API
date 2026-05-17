@@ -82,7 +82,9 @@ class UserAccessController:
 		 		f"Unable to check user access for {action} invoice action, due to invalid session token: {sessionToken}")
 			return False
 		
-		if action == INVOICE_ACTION.REPORT:
+		if action == INVOICE_ACTION.READ:
+			return user.getRole() == USER_ROLE.STAFF or user.getRole() == USER_ROLE.MANAGER
+		elif action == INVOICE_ACTION.REPORT:
 			return user.getRole() == USER_ROLE.MANAGER
 		elif action == INVOICE_ACTION.CREATE:
 			return user.getRole() == USER_ROLE.STAFF

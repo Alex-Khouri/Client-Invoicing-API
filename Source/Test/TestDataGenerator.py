@@ -99,9 +99,6 @@ class TestDataGenerator:
 			failures += 0 if TEST(invoice2_1_2.getID() == 2, f"invoice2_1_2.getID() == 2") else 1
 			failures += 0 if TEST(invoice2_2_1.getID() == 1, f"invoice2_2_1.getID() == 1") else 1
 			failures += 0 if TEST(invoice2_2_2.getID() == 2, f"invoice2_2_2.getID() == 2") else 1
-
-			# TODO: Initialise invoice adjustments
-			# TODO: Apply invoice adjustments (to generate invoice entries)
 		
 		except Exception as e:
 			ERROR(SOURCE.TEST_DATA_GENERATOR, f"Tests failed with the following error:\n{e}")

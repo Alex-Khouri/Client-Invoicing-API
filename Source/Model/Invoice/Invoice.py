@@ -38,7 +38,7 @@ class Invoice:
 		return self.__parentProject
 	
 	def getTitle(self):
-		return f"INV{self.__id} - ${self.__total} - {self.__state.value}"
+		return f"INV{self.__id} - ${round(self.__total, 2)} - {self.__state.value}"
 	
 	def setID(self, newID):
 		self.__id = newID
@@ -143,4 +143,4 @@ class Invoice:
 			return False
 
 	def __str__(self):
-		return f"INV{self.__id} - ${self.__total} - {self.__state.value}"
+		return f"INV{self.__id} - ${round(self.__total, 2)} - {self.__state.value}"

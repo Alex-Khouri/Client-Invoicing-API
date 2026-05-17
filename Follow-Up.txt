@@ -19,9 +19,10 @@
 --- Follow-Up Questions for Client ---
 
 * Do invoices need to be re-approved after adjustments are made?
-* Can invoices be edited after being sent to clients (e.g. if they're disputed), or is it necessary to create new invoices (and render existing ones 'Cancelled')?
-* If invoices can be edited after being sent to clients, do they need re-approval?
+* Can invoices be edited after being sent to clients (e.g. if they're disputed), or is it necessary to create new invoices (and mark existing ones 'Cancelled')?
+	- If invoices can be edited after being sent to clients, do they need re-approval?
 * What kind of information should be included in billing history reports?
 * Can invoices be deleted? If so:
-	- Can staff delete them without manager approval, or should deletion privileges be reserved for managers?
-	- Should complete removal of invoices be possible, or should they only be marked as 'Deleted' but retained within the system records?
+	- Who has authority to delete them?
+	- Should complete deletion of invoices be possible, or should they only be marked as 'Deleted' and retained within system records?
+* Should invoice entries be cancelled via deletion of those entries, or should staff only be able to add new entries as corrections?
