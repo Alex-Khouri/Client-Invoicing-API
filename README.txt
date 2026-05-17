@@ -8,7 +8,7 @@
 ----------------------------------------
 --- INSTRUCTIONS ---
 
-1) Navigate to "./Source"
+1) Navigate to "./Source" in your terminal
 2) Run either "run.bat" (Windows) or "run.sh" (Linux)
 3) Use an endpoint testing tool (e.g. Postman) to evaluate each API endpoint (see 'Testing' section for further information)
 
@@ -59,6 +59,10 @@ ENDPOINT INPUT EXAMPLES:
 Login
 GET http://127.0.0.1:8080/login?username=Staff1&password=Password1
 GET http://127.0.0.1:8080/login?username=Manager1&password=Password1
+
+NB: Subsequent URLs assume that the following session tokens are assigned:
+Staff1 (Role = Staff): 1
+Manager1 (Role = Manager): 2
 ----
 Logout Session
 GET http://127.0.0.1:8080/logout-session?session=1
@@ -109,10 +113,10 @@ POST http://127.0.0.1:8080/client/Client2/project/Project2-1/invoice?session=1
 POST http://127.0.0.1:8080/client/Client2/project/Project2-2/invoice?session=1
 ----
 Adjust Invoice
-http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=1&action=adjust&amount=20.50&description=test
-http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=2&action=approve
-http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=1&action=send
-http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=1&action=pay
+PATCH http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=1&action=adjust&amount=20.50&description=test
+PATCH http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=2&action=approve
+PATCH http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=1&action=send
+PATCH http://127.0.0.1:8080/client/Client1/project/Project1-1/invoice/1?session=1&action=pay
 ----
 
 INVOICE ACTION TYPES:
