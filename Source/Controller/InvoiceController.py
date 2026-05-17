@@ -54,8 +54,11 @@ class InvoiceController:
 					self.__invoiceAdjustments.pop(invoice, None) is not None
 		self.updateNextInvoiceID(invoiceID)
 		parentProject = invoice.getParentProject()
-		if parentProject is not None:
-			parentProject.removeInvoice(invoice)
+		if parentProject is None:
+			WARNING(SOURCE.INVOICE_CONTROLLER,
+		   		f"Unable to delete invoice from parent project, as invoice's parent project reference isn't populated")
+		else:
+			parentProject.removeInvoice(invoiceID)
 		return success
 
 	def adjustInvoice(self, user:User, invoice:Invoice,

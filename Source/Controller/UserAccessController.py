@@ -26,14 +26,14 @@ class UserAccessController:
 	def getUserFromToken(self, token:int):
 		return self.__sessionTokens.get(token, None)
 	
-	def targetToken(self, targetToken:int):
+	def getAllUserSessionTokens(self, targetToken:int):
 		tokens = []
 		targetUser = self.__sessionTokens.get(targetToken, None)
 		if targetUser is None:
 			return tokens
 		
-		for key, value in self.__sessionTokens:
-			if value == targetUser:
+		for key, value in self.__sessionTokens.items():
+			if value is targetUser:
 				tokens.append(key)
 		
 		return tokens
@@ -56,7 +56,7 @@ class UserAccessController:
 
 		newSessionToken = self.__nextSessionToken
 		self.__sessionTokens[newSessionToken] = user
-		self.cycleSessionToken()
+		self.cycleSessionToken() # This must be done after new token is stored in collection
 		return newSessionToken
 	
 	def logoutSession(self, sessionToken:int):
@@ -67,7 +67,11 @@ class UserAccessController:
 
 	def logoutAllSessions(self, sessionToken:int):
 		success = True
-		for token in self.targetToken(sessionToken):
+		sessionTokens = list(self.getAllUserSessionTokens(sessionToken))
+		WARNING_IF(len(sessionTokens) < 0,
+			SOURCE.USER_ACCESS_CONTROLLER,
+			f"Logout for all sessions triggered for user with no active session tokens")
+		for token in sessionTokens:
 			success = success and self.logoutSession(token)
 		return success
 	

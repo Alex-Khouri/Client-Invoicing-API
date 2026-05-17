@@ -9,7 +9,6 @@ from flask import Flask, request, jsonify, make_response
 clientProjectController = ClientProjectController()
 userAccessController = UserAccessController()
 
-# TODO: Un-comment these lines once test data is ready to use
 testDataGenerator = TestDataGenerator(clientProjectController, userAccessController)
 testDataGenerator.initialiseTestData()
 
@@ -24,11 +23,12 @@ def test():
 # /register?username=text&password=text&role=text
 @app.route("/register", methods=["POST"])
 def register():
+	# TODO: Test this endpoint
 	username = request.args.get("username", None)
 	password = request.args.get("password", None)
 	userRole = parseUserRole(request.args.get("role", None))
 	code = 201 if userAccessController.register(username, password, userRole) else 400
-	return make_response(None, code)
+	return make_response("", code)
 
 # /login?username=text&password=text
 @app.route("/login", methods=["GET"])
@@ -45,10 +45,10 @@ def logoutSession():
 	sessionToken = parseSessionToken(request.args.get("session", None))
 
 	if userAccessController.getUserFromToken(sessionToken) == None:
-		return make_response(None, 401)
+		return make_response("", 401)
 
 	userAccessController.logoutSession(sessionToken)
-	return make_response(None, 200)
+	return make_response("", 200)
 
 # e.g. /logout-all?session=123
 @app.route("/logout-all", methods=["GET"])
@@ -56,10 +56,10 @@ def logoutAll():
 	sessionToken = parseSessionToken(request.args.get("session", None))
 
 	if userAccessController.getUserFromToken(sessionToken) == None:
-		return make_response(None, 401)
+		return make_response("", 401)
 
 	userAccessController.logoutAllSessions(sessionToken)
-	return make_response(None, 200)
+	return make_response("", 200)
 
 # e.g. /client-name?session=123&outstandingOnly=true
 @app.route("/client/<string:clientName>", methods=["GET"])
@@ -195,27 +195,28 @@ def deleteProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 	sessionToken = parseSessionToken(request.args.get("session", None))
 
 	if userAccessController.getUserFromToken(sessionToken) == None:
-		return make_response(None, 401)
+		return make_response("", 401)
 
 	if not userAccessController.userCanPerformInvoiceAction(sessionToken, INVOICE_ACTION.DELETE):
-		return make_response(None, 403)
+		return make_response("", 403)
 	
 	client = clientProjectController.getClient(clientName)
 	if client == None:
-		return make_response(None, 404)
+		return make_response("", 404)
 	
 	project = client.getProject(projectName)
 	if project == None:
-		return make_response(None, 404)
+		return make_response("", 404)
 	
 	if clientProjectController.deleteInvoice(project, invoiceID):
-		return make_response(None, 204)
+		return make_response("", 204)
 	else:
-		return make_response(None, 400)
+		return make_response("", 404)
 
 # e.g. /client-name/project-name/invoice-123?session=456&action=adjust&amount=20.50&description=test
 @app.route("/client/<string:clientName>/project/<string:projectName>/invoice/<int:invoiceID>", methods=["PATCH"])
 def adjustProjectInvoice(clientName:str, projectName:str, invoiceID:int):
+	# TODO: Test this endpoint
 	sessionToken = parseSessionToken(request.args.get("session", None))
 	action = parseInvoiceAction(request.args.get("action", None))
 	amount = parseAdjustmentAmount(request.args.get("amount", None)) # Optional
@@ -223,26 +224,26 @@ def adjustProjectInvoice(clientName:str, projectName:str, invoiceID:int):
 
 	user = userAccessController.getUserFromToken(sessionToken)
 	if user == None:
-		return make_response(None, 401)
+		return make_response("", 401)
 
 	if not userAccessController.userCanPerformInvoiceAction(sessionToken, action):
-		return make_response(None, 403)
+		return make_response("", 403)
 
 	client = clientProjectController.getClient(clientName)
 	if client == None:
-		return make_response(None, 404)
+		return make_response("", 404)
 	
 	project = client.getProject(projectName)
 	if project == None:
-		return make_response(None, 404)
+		return make_response("", 404)
 	
 	invoice = project.getInvoice(invoiceID)
 	if invoice == None:
-		return make_response(None, 404)
+		return make_response("", 404)
 
 	if clientProjectController.adjustInvoice(project, user, invoice, action, amount, description):
-		return make_response(None, 200)
+		return make_response("", 200)
 	else:
-		return make_response(None, 400)
+		return make_response("", 400)
 
 app.run(port=APP_PORT, debug=True)

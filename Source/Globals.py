@@ -98,23 +98,23 @@ def ERROR_IF(condition:bool, source:SOURCE, message:str):
 def parseSessionToken(tokenString:str):
 	try:
 		return int(tokenString)
-	except ValueError:
+	except Exception:
 		return NULL_SESSION_TOKEN
 
 def parseAdjustmentAmount(amountString:str):
 	try:
 		return float(amountString)
-	except ValueError:
+	except Exception:
 		return DEFAULT_INVOICE_ENTRY_AMOUNT
 
 def parseInvoiceAction(actionString:str):
 	try:
 		return INVOICE_ACTION[actionString.upper()]
-	except KeyError:
+	except Exception:
 		return INVOICE_ACTION.NULL
 
 def parseUserRole(roleString:str):
 	try:
 		return USER_ROLE[roleString.upper()]
-	except KeyError:
+	except Exception:
 		return USER_ROLE.NULL
