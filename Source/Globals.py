@@ -77,6 +77,9 @@ class USER_ROLE(Enum):
 def LOG(source:SOURCE, message:str):
 	print(f"LOG [{source}] [{datetime.now()}]: {message}")
 
+def DEBUG(message:str):
+	print(f"DEBUG [{datetime.now()}]: {message}")
+
 def WARNING(source:SOURCE, message:str):
 	print(f"WARNING [{source}] [{datetime.now()}]: {message}")
 

@@ -10,8 +10,8 @@ clientProjectController = ClientProjectController()
 userAccessController = UserAccessController()
 
 # TODO: Un-comment these lines once test data is ready to use
-# testDataGenerator = TestDataGenerator(clientProjectController, userAccessController)
-# testDataGenerator.initialiseTestData()
+testDataGenerator = TestDataGenerator(clientProjectController, userAccessController)
+testDataGenerator.initialiseTestData()
 
 app = Flask(__name__)
 

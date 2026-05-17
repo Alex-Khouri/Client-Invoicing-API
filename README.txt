@@ -11,8 +11,8 @@
 3) Use an endpoint testing tool (e.g. Postman) to evaluate each API endpoint
 
 Use the following data for testing:
-Users:
-{
+
+Users: {
 	Username: Staff1
 	Password: Password1
 	Role: Staff
@@ -22,40 +22,25 @@ Users:
 	Password: Password1
 	Role: Manager
 },
-Clients:
-{
+Clients: {
 	Name: Client1
-	Projects:
-	{
+	Projects: {
 		Name: Project1-1
-		Invoices:
-		{
-			ID: TBC
-		}
+		Invoices: { ID: 1 }, { ID: 2 }
 	},
 	{
 		Name: Project1-2
-		Invoices:
-		{
-			ID: TBC
-		}
+		Invoices: { ID: 1 }, { ID: 2 }
 	}
 },
 {
 	Name: Client2
-	Projects:
-	{
+	Projects: {
 		Name: Project2-1
-		Invoices:
-		{
-			ID: TBC
-		}
+		Invoices: { ID: 1 }, { ID: 2 }
 	},
 	{
 		Name: Project2-2
-		Invoices:
-		{
-			ID: TBC
-		}
+		Invoices: { ID: 1 }, { ID: 2 }
 	}
 }

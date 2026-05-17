@@ -45,7 +45,7 @@ class ClientProjectController:
 		self.__clients[newClient.getName()] = newClient
 		self.__projects[newClient.getName()] = {}
 		for project in newClient.getProjects():
-			self.__projects[project.getName()] = project
+			self.__projects[newClient.getName()][project.getName()] = project
 
 	def createClient(self, clientName:str):
 		newClient = Client(clientName)
@@ -54,16 +54,22 @@ class ClientProjectController:
 	
 	def addProject(self, client:Client, newProject:Project):
 		clientName = client.getName()
-		if clientName not in self.__clients.keys() or client not in self.__clients.values():
+		if clientName not in self.__clients.keys() or \
+			client not in self.__clients.values():
+			WARNING(SOURCE.CLIENT_PROJECT_CONTROLLER,
+		   		f"{newProject.getName()} added without parent client ({clientName}) already added. Projects' clients should be added before their respective projects.")
 			self.__clients[clientName] = client
 		clientProjects = self.__projects.setdefault(clientName, [])
 		clientProjects[newProject.getName()] = newProject
-		self.__invoiceControllers[newProject] = InvoiceController(newProject)
+		# Only create new invoice controller for this project if one doesn't exist
+		self.__invoiceControllers.setdefault(newProject, InvoiceController(newProject))
 		client.addProject(newProject)
 		return newProject
 
 	def createProject(self, clientName:str, projectName:str):
 		client = self.getClient(clientName)
+		if client == None:
+			return None
 		newProject = Project(projectName, client)
 		self.addProject(client, newProject)
 		return newProject
